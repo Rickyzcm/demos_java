@@ -1,16 +1,20 @@
 
 ## Java的多态性
-  + 方法重载
-  + 方法覆盖
+  > 多态性是指同名的若干种方法，具有不同的实现(方法体中的代码不一样)  
+  > 让程序具备良好扩展性。
+
+  + 方法重载(Overloading)
+    - 又称静态多态性
+    - 同一类中允许多个同名方法，这些同名方法的主要区别：
+      + 参数的个数不同
+      + 同样参数名，但类型不同(包括不同类型的参数之间置换参数顺序)
+  + 方法覆盖(Overriding)
+    - 又称动态多态性
+    - 子类对父类的方法进行重新定义，但其方法名，返回值和参数形态完全相同 
 
 ### 方法重载
   + Java 是支持重载的语言
   + 意味着同一个类中会出现两个或者两个以上同名的方法
-
-#### 实现(在于两个函数间比较)
-  * 参数个数不同
-  * 参数类型不同
-  * 参数名相同但类型不同
 
 1. 计算图形面积的方法重载例子
    ```java  
@@ -255,3 +259,186 @@
    **注意**
      + 继承抽象类的之类必须实现父类中的所有方法，即使没有具体的实现步骤，但是包裹方法体的 `{}` 必须存在。
      + 对于类，不可以同时用 `abstract`和 `final`进行修饰；对于成员方法，不能同时用 `static` 和 `abstract`进行修饰
+
+## 接口
++ 接口是一个特殊的类：由常量和抽象方法组成
+### 使用接口注意的规则
++ 通过关键字 interface 可以指定一个接口必须做什么，而不是规定这个接口如何去做。
++ 接口中定义的方法是不含方法体的。(即抽象方法)
++ 一旦接口被定义，任何类成员都可以实现该接口。
+   > 一个类只可以有一个父类，但是可以实现多个接口
+
+### 定义格式
+  ```java
+  [public] interface 接口名 [extends 父接口列表]{
+      数据类型 变量名 = 常量值;      // 常量域声明
+      返回类型 方法名(参数列表)[throws 异常列表]    // 抽象方法声明
+  }
+  ```
+
+### 接口的几个规则
+#### 接口具有继承性，一个接口还可以继承多个父接口，父接口用逗号隔开
+  ```java
+  interface InterfaceA{
+    void testA();
+  }
+
+  interface InterfaceB{
+    void testB();
+  }
+
+  interface InterfaceC extends InterfaceA,InterfaceB{
+    void testC();
+  }
+  ```  
+  *以上例子中接口 C 继承了接口 A 和接口 B*  
+
+#### 系统默认 接口中的所有成员变量的修饰都是加上 `public`、 `static` 和 `final` 属性  
+  > (即使不加修饰词，系统也是默认具有的以上三个属性的)，所以在接口中定义的变量都是不能改变的值  
+
+  ```java
+  interface circle{
+    double PI = 3.1415926;
+  }
+  ```
+ **完全等同于**  
+  ```java
+  interface circle{
+    public static final double PI = 3.1415926;
+  }
+  ```  
+
+####  接口只包括常量和抽象方法
+  > 在接口内不能把定义变量和具体的成员方法，会导致错误
+
+#### 接口本身具有抽象属性，不需 `abstract`修饰
+  > 接口的访问控制权限有 `public` 和 默认权限，不具有 `protected` 和 `private` 权限
+  ```java
+  abstract interface InterfaceA  // 加上 `abstract` 关键字也不会报错
+
+  public interface InterfaceA   // 声明一个具有公共权限的接口
+
+  protected interface InterfaceA    // 编译出错，接口没有 protected 权限
+
+  private interface InterfaceA    // 编译出错，接口没有 private 权限
+  ```
+
+#### 同一个Java 源文件中不能有两个及两个以上被 `public` 修饰的类或接口
+
+#### 接口没有构造方法，不能通过接口直接生成接口的实例对象
+
+### 接口的实现
+  + 一个接口可以被一个类或者多个类实现
+  + 一个类实现一个接口时，必须实现接口中的所有方法(方法覆盖)
+
+#### 接口实现的具体格式
+   + ```java
+      class <类名> implements 接口1,接口2,...
+     ```
+#### 接口实现的具体例子
+    不妨设立一个图形接口 JShape，该接口有两种方法：
+      1.area():用来表示图形的面积
+      2.draw():用来表示图形的画法  
+   ```java
+      interface JShape{
+        void area();
+        void draw();
+        // 默认的public 访问权限
+      }
+   ```
+    Circle 和 Rectangle2 分别实现了该接口
+      需要注意的是两个类在实现接口的方法的时候需要加`public`关键字
+   ```java
+      class JCircle implements JShape {
+        public void area() {
+          System.out.println("面积公式：PI*radius*radius");
+        }
+        
+        public void draw() {
+          System.out.println("画我请使用圆规");
+        }
+      }
+
+      class JRectangle2 implements JShape {
+        public void area() {
+          System.out.println("面积公式：width * height");
+        }
+        
+        public void draw() {
+          System.out.println("画我请使用直尺");
+        }
+      }
+   ```
+   然后设立 main() 函数进行测试
+   ```java
+    public static void main(String[] args) {
+      JCircle c = new JCircle();
+      c.area();
+      c.draw();
+      JRectangle2 t = new JRectangle2();
+      t.area();
+      t.draw();
+    }
+   ```
+
+#### 通过接口可以引入多个类的共享常量
+   > 接口中定义成员变量的都被默认 具有 public、static、final 属性，完全可以看做常量  
+
+   ```java
+    interface JShape2{
+      String shapename = "图形类";
+      void area();
+      void draw();
+      // 默认的public 访问权限
+    }
+
+    class JCircle2 implements JShape2 {
+      String getName() {
+        return shapename+"：圆";
+      }
+      
+      public void area() {
+        System.out.println("面积公式：PI*radius*radius");
+      }
+      
+      public void draw() {
+        System.out.println("画我请使用圆规");
+      }
+    }
+   ```  
+   > main() 函数进行测试
+   ```java
+    public static void main(String[] args) {
+      JCircle2 c = new JCircle2();
+      c.draw();
+      System.out.println(c.getName());
+    }
+   ```
+   > 输出控制台内容
+   ```
+    画我请使用圆规
+    图形类：圆
+   ```  
+
+#### 接口可以扩展
+   + 接口使用 `extends` 关键字被其他接口继承
+   + 实现该接口的类必须实现该接口的继承列表上所有方法  
+
+ 比如  
+   ```java
+    interface A{void funcA();}
+    interface B extends A{void funcB();}
+    interface C extends B{void funcC();}
+    
+    // 实体类 D 实现接口 C 的接口，也必要实现 C 继承的接口B和 B 继承的接口A中的所有抽象方法 
+    class D implements C{
+      // 对 C 中的 funcC() 实现
+      public void funcC(){...}
+
+      // 对 C继承列表中的接口 B 中的 funcB() 需要进行实现
+      public void funcB(){...}
+
+      // 对 B 继承列表中的接口 A 的 抽象方法 funcA() 也要实现
+      public void funcA(){...}
+    }
+   ```

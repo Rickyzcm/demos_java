@@ -17,25 +17,25 @@ Java_IO
 
 
 **注意使用Java流的代码**
-> 必须使Java流的代码包括在try-catch处理中，如  
++ 必须使Java流的代码包括在try-catch处理中，如  
   
-  ```java
+   ```java
    try{
         FileInputStream rf = new FileInputStream("...文件完整路径...");
         ...
    }catch(Exception e){
        //
    }
-  ```
+   ```
 
 ### 标准输入输出流
   + 指Java在命令行方式下的输入输出方式  
 
-  |对象|功能|
-  -|-
-  |System.in|标准输入|
-  |System.out|标准输出|
-  |System.err|标准错误输出|
+    |对象|功能|
+    -|-
+    |System.in|标准输入|
+    |System.out|标准输出|
+    |System.err|标准错误输出|
 
   > 每当main()方法被执行的时候，就自动生成以上三个对象
 
