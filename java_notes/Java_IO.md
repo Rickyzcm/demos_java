@@ -21,8 +21,8 @@ Java_IO
   
   ```java
    try{
-       FileInputStream rf = new FileInputStream("...文件完整路径...");
-
+        FileInputStream rf = new FileInputStream("...文件完整路径...");
+        ...
    }catch(Exception e){
        //
    }
