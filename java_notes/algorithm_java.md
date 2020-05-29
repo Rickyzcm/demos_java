@@ -16,7 +16,7 @@
 
 
 #### 冒泡排序算法实现  
-    ```java
+   ```java
     for(int i = 0;i<array.length;i++) {
 		for (int j = 0;j<array.length-i-1;j++) {
 			if (array[j]>array[j+1]) {
@@ -27,7 +27,7 @@
 			}
 		}
 	}
-    ```  
+```  
    > `temp` 就是起到了这个临时变量的作用
 
 #### 思考背景--无需额外变量变量交换两个数/变量的值
@@ -36,33 +36,33 @@
 
 #### 优化方法1：   
    算数运算(加减)
-    ```java
+   ```java
     x=x+y; //x暂存两数之和
     y=x-y; //y为两数之和减去y，即原来的x
     x=x-y; //x为两数之和减去现在的y（原来的x），变成原来的y
-    ```  
+   ```  
     以上对纯数字的值进行操作符合数学关系
 
     把 `x` 看成`array[j]`,`y` 看成`array[j+1]`,将核心代码优化一下
-    ```java
+   ```java
     array[j] = array[j]+array[j+1];
     array[j+1] = array[j] - array[j+1];
     array[j] = array[j] - array[j+1];
-    ```
+   ```
     **实际上可读性就可能很牵强了**
 #### 优化方法2：
     逻辑运算(异或)
-    ```java
+   ```java
     x^=y;//x先存x和y两者的信息
     y^=x;//保持x不变，利用x异或反转y的原始值使其等于x的原始值
     x^=y;//保持y不变，利用x异或反转y的原始值使其等于y的原始值
-    ```
+   ```
     同理将核心代码优化结果
-    ```java
+   ```java
     array[j] ^= array[j+1];
     array[j+1] ^= array[j];
     array[j] ^= array[j+1];
-    ```
+   ```
     **可读性可能也是差强人意**
 
 **以上只是对方法的探讨。**
