@@ -57,3 +57,20 @@ Java_IO
                             |__ DataOutputStream
                             |__ PrintStream
     ```
+
+
+### 字符流
+
+### 可能会遇到的面试问题
+
+#### java 中的IO流分为几种？
+
+ > 按功能来分：输入流(input)和输出流(output)  
+   按类型来分：字节流和字符流  
+   字节流按8位以字节为单位输入输出数据  
+   字符流按16位以字符为单位输入输出数据
+
+#### BIO、NIO、AIO有什么区别？
+  > BIO：Block IO同步阻塞式 IO，就是我们平常使用的传统IO  
+  > NIO：New IO同步非阻塞式 IO，是传统IO的升级，客户端和服务端通过Channel(管道)多路复用  
+  > AIO：Asynchronous IO是NIO的升级，也叫NIO2，实现了异步非堵塞 IO，异步IO的操作属于事件和回调机制

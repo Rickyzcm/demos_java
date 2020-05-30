@@ -441,4 +441,9 @@
       // 对 B 继承列表中的接口 A 的 抽象方法 funcA() 也要实现
       public void funcA(){...}
     }
-   ```
+   ```  
+
+### List接口和ArrayList、LinkedList和 Vector 类
+#### ArrayList类
+ > 采用可变大小的数组“实现” List 接口
+ + 初始 ArrayList 类型的对象大小为零，每植入一个值，数组大小将增加 1 
