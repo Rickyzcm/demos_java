@@ -447,3 +447,124 @@
 #### ArrayList类
  > 采用可变大小的数组“实现” List 接口
  + 初始 ArrayList 类型的对象大小为零，每植入一个值，数组大小将增加 1 
+ + 实现的常用方法：(index为索引号，value为传入的值)
+    > `get(index)`、`set(index,value)`、`add(index,value)`、`remove(index)`  
+
+##### 使用ArrayList实现扑克牌分发原理(未区别颜色)
+   + java代码实现
+     ```java
+      /*
+      * 实现扑克牌的分发，假设一副扑克牌52张(去掉大小王)
+      * 实现随机洗牌操作给四个人分发手牌：每个人手牌数量是一定的
+      * 最后将每个人分到的牌按照花色排序后输出
+      */
+
+      import java.util.*;
+
+      public class TestDealCard {
+
+        public static void main(String[] args) {
+          int numOfHands = 4;
+          int cardsPerHand = 12; //
+          
+          //生成一副牌
+          String [] suit = {"♠","♣","❤","♦"};	// 
+          String [] rank = {"A","1","2","3","4","5","6","7","8","9","10","J","Q","K"};
+          List deck = new ArrayList();
+          
+          for(int i =0;i<suit.length;i++) {
+            for (int j =0;j<rank.length;j++) {
+              deck.add(suit[i]+rank[j]);
+            }
+          }
+          
+          Collections.shuffle(deck);	//随机改变 deck 中元素的排列次序，即洗牌
+          
+          for(int i=0;i<numOfHands;i++) {
+          // 生成一手牌，并对牌按花色排序后输出
+            List p = dealCard(deck,cardsPerHand);
+            Collections.sort(p);
+            System.out.println(p);
+          }
+        }
+        
+        public static List dealCard(List deck,int n) {
+          int deckSize = deck.size();
+          List handView = deck.subList(deckSize - n, deckSize); // 从 deck 中截取一个子列表
+          
+          // 利用该子链表创建一个链表，作为返回值
+          List hand = new ArrayList(handView);
+          handView.clear();
+          return hand;
+        }
+      }
+     ```
+    + 运行控制台输出一(随机分发的一次结果)  
+      ```
+      [♠10, ♠2, ♠8, ♠K, ♣2, ♣9, ♣Q, ♦2, ♦8, ♦K, ♦Q, ❤Q]
+      [♠A, ♠Q, ♣6, ♣7, ♣8, ♣K, ♦10, ♦4, ❤1, ❤6, ❤8, ❤9]
+      [♠4, ♠5, ♠6, ♠7, ♠J, ♣1, ♣3, ♣4, ♦7, ♦9, ♦A, ❤2]
+      [♠1, ♣10, ♣5, ♦1, ♦5, ♦6, ♦J, ❤3, ❤4, ❤5, ❤A, ❤K]
+      ```  
+    
+#### LinkedList 类
+   > 链表结构实现 List 接口，提供了在链表开头和结尾处进行get、remove和insert操作以便实现堆栈、队列和双端队列
+
+##### 从数据结构上理解
+   > LinkedList是一种双向的链式结构每一个对象除了自身，还有两个引用(指针)
+
+   >链表结构的插入和删除速度会比顺序结构(如ArrayList)的数组慢(慢在寻数上)，因为数组可以随机存储
+
+##### LinkedList 实现栈的数据结构
+   +
+     ```java
+      /*
+      * 栈(Stack)的定义：限制仅在表的一端进行插入和删除运算的线性表
+      * (1)称提供插入、删除的这一端为栈顶(Top),另一端为栈底(Bottom)
+      * (2)当表中没有元素时称为空栈
+      * (3)栈为后进先出(LIFO)的线性表
+      */
+      import java.util.LinkedList;
+
+      public class TestStack {
+        LinkedList linkList = new LinkedList<Object>();
+        // 判断栈是否空
+        public boolean isEmpty() {
+          return linkList.isEmpty();
+        }
+        // 获取栈大当前大小
+        public int getSize() {
+          return linkList.size();
+        }
+        // 清空栈
+        public void clear() {
+          linkList.clear();
+        }
+        // 入栈
+        public void push(Object obj) {
+          linkList.addFirst(obj);
+        }
+        // 移除并返回栈顶元素,即出栈方法
+        public Object pop() {
+          if(!linkList.isEmpty()) {
+            return linkList.removeFirst();
+          }
+          return "当前栈为空";
+        }
+        public static void main(String[] args) {
+          TestStack myStack = new TestStack();
+          myStack.push(1);
+          myStack.push(3);
+          myStack.push(2);
+          System.out.println("移除栈顶元素"+myStack.pop());	// 输出2
+          System.out.println("移除栈顶元素"+myStack.pop());	// 输出3
+        }
+      }
+     ```  
+     > 在 TestStack 类对 LinkedList 类提供的方法进行了选用，实现了栈在操作和结构上的限定范围，使用main方法进行测试运行的结果：3比2先进栈，但是出栈顺序是先2后3，符合出栈顺序“后进先出”
+
+##### LinkedList 实现队列的数据结构
+   + 
+     ```java
+      
+     ```
