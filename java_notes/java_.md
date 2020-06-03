@@ -506,7 +506,11 @@
       [♠4, ♠5, ♠6, ♠7, ♠J, ♣1, ♣3, ♣4, ♦7, ♦9, ♦A, ❤2]
       [♠1, ♣10, ♣5, ♦1, ♦5, ♦6, ♦J, ❤3, ❤4, ❤5, ❤A, ❤K]
       ```  
-    
+
+## 数据结构
+
+### List接口
+
 #### LinkedList 类
    > 链表结构实现 List 接口，提供了在链表开头和结尾处进行get、remove和insert操作以便实现堆栈、队列和双端队列
 
@@ -516,7 +520,7 @@
    >链表结构的插入和删除速度会比顺序结构(如ArrayList)的数组慢(慢在寻数上)，因为数组可以随机存储
 
 ##### LinkedList 实现栈的数据结构
-   +
+   + 内含main方法用于测试操作
      ```java
       /*
       * 栈(Stack)的定义：限制仅在表的一端进行插入和删除运算的线性表
@@ -564,7 +568,148 @@
      > 在 TestStack 类对 LinkedList 类提供的方法进行了选用，实现了栈在操作和结构上的限定范围，使用main方法进行测试运行的结果：3比2先进栈，但是出栈顺序是先2后3，符合出栈顺序“后进先出”
 
 ##### LinkedList 实现队列的数据结构
-   + 
+   + 内含main方法用于测试队列操作
      ```java
-      
+      /*
+      * 队列(Queue)定义：只允许在一端进行插入，而在另一端进行删除的运算受限的线性表
+      * (1)允许删除的一端称之为队头(Front)
+      * (2)允许插入的一端称之为队尾(Rear)
+      * (3)没有元素的队列称之为空队列
+      * (4)队列也叫先进先出(FIFO)的线性表
+      */
+
+      import java.util.LinkedList;
+        
+      public class TestQueue {
+        LinkedList linkedList = new LinkedList();
+        //判空
+        public boolean isEmpty() {
+          return linkedList.isEmpty();
+        }
+        //获取当前队列长度
+        public int getSize() {
+          return linkedList.size();
+        }
+        //清空队列
+        public void clear() {
+          linkedList.clear();
+        }
+        // 队尾插入
+        public void put(Object obj) {
+          linkedList.addLast(obj);
+        }
+        // 队头移出元素
+        public Object get() {
+          if(!linkedList.isEmpty()) {
+            return linkedList.removeFirst();
+          }
+          return "队列为空";
+        }
+        
+        public static void main(String[] args) {
+          TestQueue tq = new TestQueue();
+          tq.put(100);
+          tq.put(200);
+          tq.put(300);
+          System.out.println("队列是否为空"+tq.isEmpty());
+          System.out.println("出队列操作"+tq.get());
+          System.out.println("出队列操作"+tq.get());
+          System.out.println("出队列操作"+tq.get());
+          System.out.println("队列是否为空"+tq.isEmpty());
+        }
+      }
+     ```  
+     > 控制台输出  
+
      ```
+      队列是否为空false
+      出队列操作100
+      出队列操作200
+      出队列操作300
+      队列是否为空true
+     ```  
+
+### ArrayList 和 LinkedList 的区别
+  > ArrayList 底层原理的数据结构是数组：支持随机访问；移动一个元素ArrayList 是O(n);
+
+  > LinkedList 的底层数据结构是双向循环列表，不支持随机访问；移动一个元素 LinkedList 的是O(1) 
+
+  **两者都可以设置初始的空间大小**  
+  > Vector 还可以设置增长空间大小的方法;ArrayList 没有  
+  **同步性**
+  > Vector 具有同步性，是线程安全的，当用到多线程访问集合的时候使用Vector就不需考虑和编写线程安全的代码
+
+  > ArrayList 是线程异步的,
+
+  **集合中元素数目大于长度时，Vector和ArrayList的增长度**  
+  > Vector 的增长率为原来的 100%，；ArrayList 的增长率为原来的 50%
+
+  > 集合中使用数据量比较大的时候，Vector 具有一定优势   
+
+#### Vector(向量) 类
+   > 使用可变体积的数组实现 List 接口，使用向量没有数组的范围限制，可以不断地添加元素  
+
+   **注意向量内能添加的数据都是对象，向量是不能存放基本数据类型的数据的**
+
+   + 向量变量的声明格式及构造函数  
+     ```java
+      Vector<向量元素的数据类型> 变量名;
+
+      // 举例
+      Vector<String> v;
+
+      /**
+      *Vector 运行时创建一个初始的存储容量initialCapacity
+      *存储容量是以capacityIncrement变量定义的增量增长的
+      */
+      public Vector(int initialCapacity,int capacityIncrement){...}
+      // 只创建初始存储容量 initialCapacity
+      public Vector(int initialCapacity){...}
+      // 不指定初始的存储容量也不指定 capacityIncrement
+      public Vector(){...}
+     ```  
+
+### Set接口
+
+  > 实现Set接口的常用类包括HashSet、TreeSet和LinkedHashSet  
+ 
+   + HashSet 中一个 HashSet 对象中的元素存储在 Hash表中  
+     > 元素数量较大时，访问效率比线性表快
+     
+   + TreeSet 采用有序树的结构存储集合中的元素，所有元素按照升序排序
+ 
+   + LinkedHashSet采用 Hash表和链表相结合的结构存储集合中的元素：
+     > 技能保证结合中元素的顺序，又具有较高的存取效率  
+
+### Map接口 
+  > Map集合 把键值映射到某个值，一个键值最多只能映射到一个值  
+  + 主要实现操作: 基本操作/批操作、集合视图
+   
+    ```java  
+    //Map 接口定义
+    public interface Map{
+        /*基本操作*/
+        Object put(Object key,Object value);   //添加键值对
+        Object get(Object key,Object value);  //通过键获取对应的值或删除该键值对
+        Object remove(Object key);  //根据键删除该键值对
+        boolean containsKey(Object key);  //测试set中是否有该键
+        boolean containsValue(Object value);  //测试set中是否有该值
+        int size(); //获取集合长度
+        boolean isEmpty();  //判断集合是否为空
+
+        /*整体批操作*/
+        void putAll();
+        void clear();
+
+        /*集合视图*/
+        public Set keySet();
+        public Collection values();
+    }
+    ```  
+
+  *Extra* 
+  实现Set接口的类包括：HashMap,HashTable,TreeMap,WeekHashMap,IdentifyHashMap 等5个类
+#### TreeMap类  
+   > 该类按照键的升序排序元素
+
+### Iterator(迭代器)
